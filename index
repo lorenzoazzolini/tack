@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tack Master Web App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Calcolo degli Angoli di Bolina e Poppa</h1>
+    <label for="vento">Direzione del Vento Reale:</label>
+    <input type="number" id="vento" name="vento" min="0" max="360">
+
+    <label for="rotta">Rotta della Barca:</label>
+    <input type="number" id="rotta" name="rotta" min="0" max="360">
+
+    <button onclick="calcolaAngolo()">Calcola Angolo</button>
+
+    <p id="risultato"></p>
+
+    <script src="app.js"></script>
+</body>
+</html>
