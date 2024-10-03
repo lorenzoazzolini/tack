@@ -24,3 +24,18 @@ function calcolaRotte() {
 
     document.getElementById("risultato").innerHTML = risultati;
 }
+
+function calcolaScostamento() {
+    let rottaReale = parseFloat(document.getElementById("rottaReale").value);
+    let rottaTeorica = parseFloat(document.getElementById("rottaTeorica").value);
+
+    if (isNaN(rottaReale) || isNaN(rottaTeorica)) {
+        document.getElementById("scostamento").innerHTML = "Inserisci valori validi!";
+        return;
+    }
+
+    let differenza = rottaReale - rottaTeorica;
+    let direzione = differenza > 0 ? "+" : "-";
+
+    document.getElementById("scostamento").innerHTML = `Scostamento: ${direzione}${Math.abs(differenza).toFixed(1)}°`;
+}
