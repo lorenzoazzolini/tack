@@ -14,10 +14,8 @@
 
     <div class="mb-3">
         <label for="vento" class="form-label">Direzione del Vento Reale (0-360°):</label>
-        <input type="number" class="form-control" id="vento" name="vento" min="0" max="360" placeholder="Inserisci direzione del vento">
+        <input type="number" class="form-control" id="vento" name="vento" min="0" max="360" placeholder="Inserisci direzione del vento" oninput="calcolaRotte()">
     </div>
-
-    <button class="btn btn-primary w-100 mb-3" onclick="calcolaRotte()">Calcola Rotte</button>
 
     <table class="table table-bordered text-center">
         <thead>
@@ -29,26 +27,9 @@
         <tbody id="risultato"></tbody>
     </table>
 
-    <!-- Sezione per la virata -->
-    <h2 class="text-center mt-4">Calcolatore di Virata</h2>
-
-    <div class="mb-3">
-        <label for="rottaVera" class="form-label">Rotta Vera Attuale (0-360°):</label>
-        <input type="number" class="form-control" id="rottaVera" name="rottaVera" min="0" max="360" placeholder="Inserisci rotta vera">
-    </div>
-
-    <div class="mb-3">
-        <label for="mura" class="form-label">Seleziona Mura:</label>
-        <select class="form-select" id="mura">
-            <option value="dritta">Mura a Dritta</option>
-            <option value="sinistra">Mura a Sinistra</option>
-        </select>
-    </div>
-
-    <button class="btn btn-warning w-100 mb-3" onclick="calcolaVirata()">Calcola Virata</button>
-
-    <div id="risultatoVirata" class="alert alert-info text-center" role="alert">
-        La nuova rotta sarà visualizzata qui.
+    <h2 class="text-center mt-4">Rotazione del Vento</h2>
+    <div id="variazioneVento" class="alert text-center" role="alert">
+        La variazione del vento sarà visualizzata qui.
     </div>
 
     <!-- Script JS -->
