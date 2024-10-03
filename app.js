@@ -27,8 +27,8 @@ function calcolaRotte() {
     for (let andatura in andatureSinistra) {
         risultato += `
             <tr>
-                <td class="bg-danger text-white">${andatura}: ${andatureSinistra[andatura].toFixed(1)}°</td>
-                <td class="bg-success text-white">${andatura}: ${andatureDestra[andatura].toFixed(1)}°</td>
+                <td class="bg-success text-white">${andatura}: ${andatureSinistra[andatura].toFixed(1)}°</td>
+                <td class="bg-danger text-white">${andatura}: ${andatureDestra[andatura].toFixed(1)}°</td>
             </tr>`;
     }
 
@@ -47,9 +47,9 @@ function calcolaVirata() {
 
     let nuovaRotta;
     if (mura === "dritta") {
-        nuovaRotta = (rottaVera - 90 + 360) % 360;
-    } else {
         nuovaRotta = (rottaVera + 90) % 360;
+    } else {
+        nuovaRotta = (rottaVera - 90 + 360) % 360;
     }
 
     document.getElementById("risultatoVirata").innerHTML = `La nuova rotta sarà: ${nuovaRotta.toFixed(1)}°`;
