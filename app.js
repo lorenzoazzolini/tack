@@ -39,3 +39,54 @@ function calcolaScostamento() {
 
     document.getElementById("scostamento").innerHTML = `Scostamento: ${direzione}${Math.abs(differenza).toFixed(1)}°`;
 }
+
+function disegnaBussola() {
+    let vento = parseFloat(document.getElementById("vento").value);
+    let rottaTeorica = parseFloat(document.getElementById("rottaTeorica").value);
+    let rottaReale = parseFloat(document.getElementById("rottaReale").value);
+
+    if (isNaN(vento) || isNaN(rottaTeorica) || isNaN(rottaReale)) {
+        alert("Inserisci tutti i valori (vento, rotta teorica, rotta reale)");
+        return;
+    }
+
+    let canvas = document.getElementById("bussolaCanvas");
+    let ctx = canvas.getContext("2d");
+
+    // Pulisce il canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Centro del cerchio
+    let centroX = canvas.width / 2;
+    let centroY = canvas.height / 2;
+    let raggio = 150;
+
+    // Disegna il cerchio per la bussola
+    ctx.beginPath();
+    ctx.arc(centroX, centroY, raggio, 0, 2 * Math.PI);
+    ctx.stroke();
+
+    // Funzione per disegnare un indicatore
+    function disegnaIndicatore(angolo, colore, testo) {
+        let radianAngolo = (angolo - 90) * (Math.PI / 180); // Converti in radianti e ruota per l'orientamento
+        let fineX = centroX + raggio * Math.cos(radianAngolo);
+        let fineY = centroY + raggio * Math.sin(radianAngolo);
+
+        ctx.beginPath();
+        ctx.moveTo(centroX, centroY);
+        ctx.lineTo(fineX, fineY);
+        ctx.strokeStyle = colore;
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Aggiungi testo per l'indicatore
+        ctx.font = "16px Arial";
+        ctx.fillStyle = colore;
+        ctx.fillText(testo, fineX + 10, fineY + 10);
+    }
+
+    // Disegna i vari indicatori
+    disegnaIndicatore(vento, "blue", "Vento Reale");
+    disegnaIndicatore(rottaTeorica, "green", "Rotta Teorica");
+    disegnaIndicatore(rottaReale, "red", "Rotta Reale");
+}
