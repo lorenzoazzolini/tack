@@ -35,3 +35,22 @@ function calcolaRotte() {
     // Inserisci i dati nella tabella
     document.getElementById("risultato").innerHTML = risultato;
 }
+
+function calcolaVirata() {
+    let rottaVera = parseFloat(document.getElementById("rottaVera").value);
+    let mura = document.getElementById("mura").value;
+
+    if (isNaN(rottaVera) || rottaVera < 0 || rottaVera > 360) {
+        alert("Inserisci un valore valido per la rotta vera!");
+        return;
+    }
+
+    let nuovaRotta;
+    if (mura === "dritta") {
+        nuovaRotta = (rottaVera - 90 + 360) % 360;
+    } else {
+        nuovaRotta = (rottaVera + 90) % 360;
+    }
+
+    document.getElementById("risultatoVirata").innerHTML = `La nuova rotta sarà: ${nuovaRotta.toFixed(1)}°`;
+}
