@@ -2,7 +2,7 @@ let ventoIniziale = 0;
 
 function calcolaRotte() {
     let vento = parseFloat(document.getElementById("vento").value);
-    
+
     if (isNaN(vento) || vento < 0 || vento > 360) {
         alert("Inserisci un valore valido per la direzione del vento!");
         return;
@@ -13,32 +13,35 @@ function calcolaRotte() {
         ventoIniziale = vento;
     }
 
-    // Definizione delle andature di bolina
-    let andatureSinistra = {
-        "Bolina Stretta": (vento - 45 + 360) % 360,
-        "Bolina Larga": (vento - 60 + 360) % 360
+    // Mostra il vento reale corrente
+    document.getElementById("ventoAttuale").innerHTML = `Vento Reale: ${vento}°`;
+
+    // Definizione delle rotte di bolina (a sinistra e a destra)
+    let rotteSinistra = {
+        sinistra1: (vento - 45 + 360) % 360,
+        sinistra2: (vento - 60 + 360) % 360
     };
 
-    let andatureDestra = {
-        "Bolina Stretta": (vento + 45) % 360,
-        "Bolina Larga": (vento + 60) % 360
+    let rotteDestra = {
+        destra1: (vento + 45) % 360,
+        destra2: (vento + 60) % 360
     };
 
     // Genera le righe della tabella con i pulsanti + e -
     let risultato = "";
 
-    for (let andatura in andatureSinistra) {
+    for (let rotta in rotteSinistra) {
         risultato += `
             <tr>
-                <td class="bg-success text-white">
-                    ${andatura}: <span id="${andatura}_sinistra">${andatureSinistra[andatura].toFixed(1)}</span>°
-                    <button class="btn btn-secondary btn-sm" onclick="modificaRotta('${andatura}_sinistra', -1)">-</button>
-                    <button class="btn btn-secondary btn-sm" onclick="modificaRotta('${andatura}_sinistra', 1)">+</button>
-                </td>
                 <td class="bg-danger text-white">
-                    ${andatura}: <span id="${andatura}_destra">${andatureDestra[andatura].toFixed(1)}</span>°
-                    <button class="btn btn-secondary btn-sm" onclick="modificaRotta('${andatura}_destra', -1)">-</button>
-                    <button class="btn btn-secondary btn-sm" onclick="modificaRotta('${andatura}_destra', 1)">+</button>
+                    <button class="btn btn-light btn-lg" onclick="modificaRotta('${rotta}', -1)">-</button>
+                    <span id="${rotta}_sinistra">${rotteSinistra[rotta].toFixed(1)}</span>°
+                    <button class="btn btn-light btn-lg" onclick="modificaRotta('${rotta}', 1)">+</button>
+                </td>
+                <td class="bg-success text-white">
+                    <button class="btn btn-light btn-lg" onclick="modificaRotta('${rotta}', -1)">-</button>
+                    <span id="${rotta}_destra">${rotteDestra[rotta].toFixed(1)}</span>°
+                    <button class="btn btn-light btn-lg" onclick="modificaRotta('${rotta}', 1)">+</button>
                 </td>
             </tr>`;
     }
@@ -54,22 +57,20 @@ function calcolaRotte() {
 }
 
 function modificaRotta(id, variazione) {
-    let elemento = document.getElementById(id);
-    let valoreAttuale = parseFloat(elemento.innerHTML);
+    // Recupera i valori di rotte sinistra e destra
+    let rottaSinistra = parseFloat(document.getElementById(`${id}_sinistra`).innerHTML);
+    let rottaDestra = parseFloat(document.getElementById(`${id}_destra`).innerHTML);
 
-    // Aggiorna il valore della rotta
-    let nuovoValore = (valoreAttuale + variazione + 360) % 360;
-    elemento.innerHTML = nuovoValore.toFixed(1);
+    // Calcola il nuovo valore della rotta sinistra e destra
+    let nuovaRottaSinistra = (rottaSinistra + variazione + 360) % 360;
+    let nuovaRottaDestra = (rottaDestra + variazione + 360) % 360;
 
-    // Colora il risultato in base alla vicinanza con il vento reale
-    let ventoReale = parseFloat(document.getElementById("vento").value);
-    let differenza = Math.abs(nuovoValore - ventoReale);
+    // Aggiorna il valore della rotta in tabella
+    document.getElementById(`${id}_sinistra`).innerHTML = nuovaRottaSinistra.toFixed(1);
+    document.getElementById(`${id}_destra`).innerHTML = nuovaRottaDestra.toFixed(1);
 
-    if (differenza < 10) {
-        elemento.parentElement.classList.add("bg-success");
-        elemento.parentElement.classList.remove("bg-danger");
-    } else {
-        elemento.parentElement.classList.add("bg-danger");
-        elemento.parentElement.classList.remove("bg-success");
-    }
+    // Ricalcola il vento reale in base alla nuova rotta
+    let ventoCorrente = (nuovaRottaSinistra + 45) % 360;  // Supponiamo che la bolina stretta sia l'andatura di riferimento
+    document.getElementById("vento").value = ventoCorrente;
+    calcolaRotte();  // Aggiorna la tabella e il vento reale
 }
