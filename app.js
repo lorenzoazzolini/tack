@@ -1,4 +1,5 @@
 let ventoIniziale = 0;  // Vento iniziale per calcolare la variazione
+let ventoAttuale = 0;   // Vento attuale per visualizzare l'aggiornamento
 
 // Funzione per calcolare e aggiornare le rotte
 function calcolaRotte() {
@@ -14,8 +15,10 @@ function calcolaRotte() {
         ventoIniziale = vento;
     }
 
-    // Mostra il vento reale corrente
-    document.getElementById("ventoAttuale").innerHTML = `Vento Reale: ${vento}°`;
+    ventoAttuale = vento;
+
+    // Mostra il vento iniziale e quello attuale
+    document.getElementById("ventoInizialeAttuale").innerHTML = `Vento Iniziale: ${ventoIniziale}° | Vento Attuale: ${ventoAttuale}°`;
 
     // Calcola le rotte teoriche di bolina
     let bolinaDestra = (vento + 45) % 360;
