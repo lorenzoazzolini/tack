@@ -1,10 +1,11 @@
-let ventoIniziale = 0;
+let ventoIniziale = 0;  // Vento iniziale per calcolare la variazione
 
+// Funzione per calcolare e aggiornare le rotte
 function calcolaRotte() {
-    let vento = parseFloat(document.getElementById("vento").value);
+    let vento = parseFloat(document.getElementById("vento").value);  // Prendi il valore del vento reale dall'input
 
     if (isNaN(vento) || vento < 0 || vento > 360) {
-        alert("Inserisci un valore valido per la direzione del vento!");
+        alert("Inserisci un valore valido per la direzione del vento! (0-360°)");
         return;
     }
 
@@ -16,18 +17,18 @@ function calcolaRotte() {
     // Mostra il vento reale corrente
     document.getElementById("ventoAttuale").innerHTML = `Vento Reale: ${vento}°`;
 
-    // Definizione delle rotte di bolina (a sinistra e a destra)
+    // Calcola le rotte teoriche di bolina sinistra e destra
     let rotteSinistra = {
-        sinistra1: (vento - 45 + 360) % 360,
-        sinistra2: (vento - 60 + 360) % 360
+        sinistra1: (vento - 45 + 360) % 360,  // Bolina stretta sinistra
+        sinistra2: (vento - 60 + 360) % 360   // Bolina larga sinistra
     };
 
     let rotteDestra = {
-        destra1: (vento + 45) % 360,
-        destra2: (vento + 60) % 360
+        destra1: (vento + 45) % 360,  // Bolina stretta destra
+        destra2: (vento + 60) % 360   // Bolina larga destra
     };
 
-    // Genera le righe della tabella con i pulsanti + e -
+    // Creare le righe della tabella per visualizzare le rotte e i pulsanti di modifica
     let risultato = "";
 
     for (let rotta in rotteSinistra) {
@@ -46,18 +47,19 @@ function calcolaRotte() {
             </tr>`;
     }
 
-    // Inserisci i dati nella tabella
+    // Inserisci il risultato nella tabella
     document.getElementById("risultato").innerHTML = risultato;
 
-    // Calcola e mostra la variazione del vento
+    // Calcola e visualizza la variazione del vento rispetto al vento iniziale
     let differenzaVento = vento - ventoIniziale;
     let colore = differenzaVento === 0 ? 'alert-success' : 'alert-warning';
     document.getElementById("variazioneVento").className = `alert ${colore}`;
     document.getElementById("variazioneVento").innerHTML = `Il vento ha ruotato di ${differenzaVento.toFixed(1)}°`;
 }
 
+// Funzione per modificare la rotta e aggiornare di conseguenza il vento reale
 function modificaRotta(id, variazione) {
-    // Recupera i valori di rotte sinistra e destra
+    // Ottieni i valori delle rotte sinistra e destra
     let rottaSinistra = parseFloat(document.getElementById(`${id}_sinistra`).innerHTML);
     let rottaDestra = parseFloat(document.getElementById(`${id}_destra`).innerHTML);
 
@@ -65,7 +67,7 @@ function modificaRotta(id, variazione) {
     let nuovaRottaSinistra = (rottaSinistra + variazione + 360) % 360;
     let nuovaRottaDestra = (rottaDestra + variazione + 360) % 360;
 
-    // Aggiorna il valore della rotta in tabella
+    // Aggiorna il valore della rotta nella tabella
     document.getElementById(`${id}_sinistra`).innerHTML = nuovaRottaSinistra.toFixed(1);
     document.getElementById(`${id}_destra`).innerHTML = nuovaRottaDestra.toFixed(1);
 
