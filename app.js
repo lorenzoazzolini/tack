@@ -24,15 +24,15 @@ function calcolaRotte() {
     // Inserisci i dati nella tabella
     let risultato = `
         <tr>
-            <td class="bg-success text-white">
-                <button class="btn btn-light btn-lg" onclick="modificaRotta('destra', -1)">-</button>
-                <span id="rottaDestra">${bolinaDestra.toFixed(1)}</span>°
-                <button class="btn btn-light btn-lg" onclick="modificaRotta('destra', 1)">+</button>
-            </td>
             <td class="bg-danger text-white">
                 <button class="btn btn-light btn-lg" onclick="modificaRotta('sinistra', -1)">-</button>
                 <span id="rottaSinistra">${bolinaSinistra.toFixed(1)}</span>°
                 <button class="btn btn-light btn-lg" onclick="modificaRotta('sinistra', 1)">+</button>
+            </td>
+            <td class="bg-success text-white">
+                <button class="btn btn-light btn-lg" onclick="modificaRotta('destra', -1)">-</button>
+                <span id="rottaDestra">${bolinaDestra.toFixed(1)}</span>°
+                <button class="btn btn-light btn-lg" onclick="modificaRotta('destra', 1)">+</button>
             </td>
         </tr>`;
 
@@ -54,4 +54,11 @@ function modificaRotta(lato, variazione) {
     // Ricalcola il vento reale basato sulle nuove rotte
     let ventoCorrente;
     if (lato === 'destra') {
-        ventoCorrente = (nuovaRotta - 45 +
+        ventoCorrente = (nuovaRotta - 45 + 360) % 360;
+    } else {
+        ventoCorrente = (nuovaRotta + 45) % 360;
+    }
+
+    document.getElementById("vento").value = ventoCorrente;
+    calcolaRotte();
+}
